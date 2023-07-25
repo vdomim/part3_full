@@ -9,7 +9,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "@powershell Remove-Item -Recurse -Force build && cd ../phonebook_frontend && npm run build && @powershell Copy-Item build -Recurse ../phonebook_backend/",
     "deploy": "git push origin main",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy"
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,8 @@
   },
   "homepage": "https://github.com/vdomim/fullstackopenpt3#readme",
   "devDependencies": {
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.33.0",
     "nodemon": "^3.0.1"
   },
   "dependencies": {
