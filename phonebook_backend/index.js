@@ -53,10 +53,10 @@ app.get('/api/persons/:id', (req, res) => {
 
 //Metodo para eliminar una persona de la agenda
 app.delete('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id)
-    persons = persons.filter(person => person.id !== id)
-
-    res.status(204).end()
+    Person.findByIdAndRemove(req.params.id)
+    .then(result => {
+        res.status(204).end()
+    })
 })
 
 //Metodo para añadir una nueva persona a la agenda
