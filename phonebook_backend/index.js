@@ -18,8 +18,9 @@ const errorHandler = (error, request, response, next) => {
 
     if (error.name === 'CastError') {
         return response.status(400).send({ error: 'malformatted id' })
+    } else if (error.name === 'ValidationError'){
+        return response.status(400).send({ error: error._message} )
     }
-
     next(error)
 }
 
@@ -86,7 +87,7 @@ app.delete('/api/persons/:id', (req, res, next) => {
 })
 
 //Metodo para añadir una nueva persona a la agenda
-app.post('/api/persons/', (req, res) => {
+app.post('/api/persons/', (req, res, next) => {
     const body = req.body
 
     if (body.name === undefined || body.number === undefined) {
@@ -101,7 +102,12 @@ app.post('/api/persons/', (req, res) => {
     })
 
     person.save().then(savedPerson => {
+        console.log("Post " +savedPerson)
         res.json(savedPerson)
+    })
+    .catch(error => {
+        console.log("Post" +error)
+        next(error)
     })
 })
 
