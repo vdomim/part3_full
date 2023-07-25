@@ -43,7 +43,8 @@ const App = () => {
         })
       }
     }else{
-      personService.create(nameObject).then(newPerson => {
+      personService.create(nameObject)
+      .then(newPerson => {
         setPersons(persons.concat(newPerson))
         setNewName("")
         setNewNumber("")
@@ -51,6 +52,13 @@ const App = () => {
         setInfoMessage(
             `Added ${newName}`
           )
+        setTimeout(() => {
+          setInfoMessage(null)
+        }, 5000)
+      })
+      .catch(error => {
+        setInfoType("error")
+        setInfoMessage(error.response.data.error)
         setTimeout(() => {
           setInfoMessage(null)
         }, 5000)
