@@ -61,25 +61,20 @@ app.delete('/api/persons/:id', (req, res) => {
 
 //Metodo para añadir una nueva persona a la agenda
 app.post('/api/persons/', (req, res) => {
-    const id = Math.floor(Math.random() * 200)
     const body = req.body
 
-    if(!body.name || !body.number){
-        return res.status(400).json({
-            error: "Name or number missing"
-        })
-    }
-    if(persons.filter(person => person.name === body.name).length !== 0){
-        return res.status(400).json({
-            error: "Name must be unique"
+    if (body.name === undefined || body.number === undefined) {
+        return response.status(400).json({ 
+        error: 'content missing' 
         })
     }
 
-    const person = {
+    const person = new Person({
         name: body.name,
         number: body.number,
-        id: id,
-    }
-    persons = persons.concat(person)
-    res.json(person)
+    })
+
+    person.save().then(savedPerson => {
+        res.json(savedPerson)
+    })
 })
