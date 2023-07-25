@@ -48,17 +48,20 @@ app.get('/', (req, res) => {
 
 //Metodo para devolver informacion de la agenda
 app.get('/info', (req, res) => {
-    res.send(
-        `<p>Phonebook has info for ${persons.length} people</p>
-        <p>${new Date()}</p>`
-    )
+    Person.find({}).then(persons => {
+        res.send(
+            `<p>Phonebook has info for ${persons.length} people</p>
+            <p>${new Date()}</p>`
+        )
+    })
 })
 
 //Metodo para obtener todas las personas de la agenda
-app.get('/api/persons', (req, res) => {
+app.get('/api/persons', (req, res, next) => {
     Person.find({}).then(persons => {
         res.json(persons)
-    }) 
+    })
+    .catch(error => next(error))
 })
 
 //Metodo para obtener una persona de la agenda
